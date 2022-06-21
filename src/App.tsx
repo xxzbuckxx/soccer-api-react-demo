@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import './App.css'
+import List from './components/List';
+import withListLoading from './components/withListLoading';
 
 function App() {
-
+  const ListLoading = withListLoading(List)
   const [appState, setAppState] = useState({
     loading: false,
     videos: null,
-  });
+  })
 
   useEffect(() => {
-    setAppState({ loading: true, videos: null });
+    setAppState({ loading: true, videos: null })
     const options = {
       method: 'GET',
       url: 'https://free-football-soccer-videos.p.rapidapi.com/',
@@ -22,17 +24,23 @@ function App() {
 
     axios.request(options).then(function (response) {
       const allVideos = response.data;
-      setAppState({ loading: false, videos: allVideos });
+      let newVideos = new Array();
+      for (let i = 0; i < allVideos.length; i++) {
+        newVideos[i] = allVideos[i];
+        if (newVideos.length > 2) break;
+      }
+      setAppState({ loading: false, videos: newVideos })
     }).catch(function (error) {
-      console.error(error);
-    });
-  }, [setAppState]);
+      console.error(error)
+    })
+  }, [setAppState])
 
-  console.log(appState.videos)
+  console.log(typeof(appState.videos))
 
   return (
     <>
       <h1>Soccer API</h1>
+        <ListLoading isLoading={appState.loading} repos={appState.videos} />
     </>
   )
 }
