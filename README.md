@@ -14,8 +14,8 @@ For development you need Node.js installed in your enviroment.
 ## Install
 
 ``` Bash
-$ git clone 
-$ cd 
+$ git clone git@github.com:xxzbuckxx/soccer-api-react-demo.git
+$ cd soccer-api-react-demo
 $ npm install
 ```
 
